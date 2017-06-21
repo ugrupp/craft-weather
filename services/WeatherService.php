@@ -3,6 +3,7 @@ namespace Craft;
 
 use Guzzle\Http\Client;
 use Guzzle\Http\Exception\CurlException;
+use Guzzle\Http\Exception\BadResponseException;
 
 
 class WeatherService extends BaseApplicationComponent
@@ -43,6 +44,9 @@ class WeatherService extends BaseApplicationComponent
 
 		}catch(CurlException $e) {
 			WeatherPlugin::log("Connection error to Open Weather Maps API", LogLevel::Error);
+			return false;
+		}catch(BadResponseException $e) {
+			WeatherPlugin::log("Open Weather Maps API response error.", LogLevel::Error);
 			return false;
 		}
 
